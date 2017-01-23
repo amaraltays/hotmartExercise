@@ -2,11 +2,10 @@
 <body>
 	<h1>Small File Upload</h1>
  
-	<form action="FileUploadedService/uploadFile" method="post" enctype="multipart/form-data">
+	<form action="rest/FileUploadedService/uploadFile" method="post" enctype="multipart/form-data">
  
-	   <p>
-		Select a file : <input type="file" name="file" size="45" />
-	   </p>
+ 	   <p>	User id : <input type="text" name="userId" size="45" />  </p>
+	   <p>	Select a file : <input type="file" name="file" size="45" />  </p>
  
 	   <input type="submit" value="Upload It" />
 	</form>

@@ -29,7 +29,7 @@ public class FileUploadedService {
 
 	@GET
 	@Path("/filesUp")
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<FileUploaded> listFile() {
 		return fileUpDAO.getAll();
 	}
@@ -37,10 +37,11 @@ public class FileUploadedService {
 	@POST  
     @Path("/uploadFile")  
     @Consumes(MediaType.MULTIPART_FORM_DATA)  
-    public Response uploadFile(  
+    public Response uploadFile(
+    		@FormDataParam ("userId") String userID,
             @FormDataParam("file") InputStream uploadedInputStream,  
             @FormDataParam("file") FormDataContentDisposition fileDetail) {  
-            String fileLocation = "c://files//" + fileDetail.getFileName();  
+            String fileLocation = "..//files//" + userID + "//" + fileDetail.getFileName();  
                     //saving file  
             try {  
                 FileOutputStream out = new FileOutputStream(new File(fileLocation));  
