@@ -11,8 +11,8 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 
 public class FileManager {
-	private static final String FILES_UPLOAD_DIR = File.pathSeparator + "uploads" + File.pathSeparator + "%s" + File.pathSeparator + "%s";
-	private static final String FILES_CHUNK_UPLOAD_DIR = File.pathSeparator + "chunks" + File.pathSeparator + "%s" + File.pathSeparator + "%s";
+	private static final String FILES_UPLOAD_DIR = "/uploads/%s/%s";
+	private static final String FILES_CHUNK_UPLOAD_DIR = "/chunks/%s/%s";
 	private FileUploadDao fileUploadDao = new FileUploadDao();
 
 	public boolean saveFile(InputStream fileInputStream, String fileName, String userID, Integer chunks, Integer chunk) {

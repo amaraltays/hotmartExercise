@@ -32,7 +32,7 @@ public class FileUploadedService {
     		@FormDataParam ("userId") String userID,
             @FormDataParam("file") InputStream inputStream,  
             @FormDataParam("file") FormDataContentDisposition fileDetail) {  
-			fileManager.saveFile(inputStream, fileDetail.getName(), userID);
+			fileManager.saveFile(inputStream, fileDetail.getFileName(), userID);
             String output = "File successfully uploaded to : ";  
             return Response.status(200).entity(output).build();  
      }	
@@ -45,7 +45,7 @@ public class FileUploadedService {
     		@FormDataParam ("userId") String userID,
             @FormDataParam("file") InputStream uploadedInputStream,  
             @FormDataParam("file") FormDataContentDisposition fileDetail) {
-		fileManager.saveFile(uploadedInputStream, fileDetail.getName(), userID, chunks, chunk);
+		fileManager.saveFile(uploadedInputStream, fileDetail.getFileName(), userID, chunks, chunk);
 		String output = "File successfully uploaded!";  
         return Response.status(200).entity(output).build();
 	}
