@@ -10,19 +10,19 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUploadedDao {
+public class FileUploadDao {
 	private static final String STORAGE_FILE_NAME = "FilesUploaded.dat";
-	public List<FileUploaded> getAll () {
-		List<FileUploaded> fileList = null;
+	public List<FileUpload> getAll () {
+		List<FileUpload> fileList = null;
 	      try {
 	         File file = new File(STORAGE_FILE_NAME);
 	         if (!file.exists()) {
-	            fileList = new ArrayList<FileUploaded>();
+	            fileList = new ArrayList<FileUpload>();
 	         }
 	         else{
 	            FileInputStream fis = new FileInputStream(file);
 	            ObjectInputStream ois = new ObjectInputStream(fis);
-	            fileList = (List<FileUploaded>) ois.readObject();
+	            fileList = (List<FileUpload>) ois.readObject();
 	            ois.close();
 	         }
 	      } catch (IOException e) {
@@ -33,7 +33,7 @@ public class FileUploadedDao {
 	      return fileList;
 	}
 
-	public boolean save(FileUploaded fileUp){
+	public boolean save(FileUpload fileUp){
 	      try {
 	         File file = new File(STORAGE_FILE_NAME);
 	         FileOutputStream fos = new FileOutputStream(file);

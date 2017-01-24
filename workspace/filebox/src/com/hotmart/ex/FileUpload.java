@@ -6,29 +6,29 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "fileuploaded")
-public class FileUploaded implements Serializable {
+public class FileUpload implements Serializable {
 
 	private static final long serialVersionUID = -581431395214319765L;
 
-	private int userID;
+	private String userID;
 	private UploadStatus status;
 	private int uploadTime;
 	private int chunksCount;
 	private String downloadLink;
 
-	public FileUploaded() {}
+	public FileUpload() {}
 	
-	public FileUploaded(int userID, UploadStatus status, int uploadTime, int chunksCount) {
+	public FileUpload(String userID, UploadStatus status, int uploadTime, int chunksCount) {
 		this.userID = userID;
 		this.status = status;
 		this.uploadTime = uploadTime;
 		this.chunksCount = chunksCount;
 	}
-	public int getUserID() {
+	public String getUserID() {
 		return userID;
 	}
 	@XmlElement
-	public void setUserID(int userID) {
+	public void setUserID(String userID) {
 		this.userID = userID;
 	}
 
