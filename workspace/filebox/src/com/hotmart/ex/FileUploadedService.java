@@ -3,11 +3,13 @@ package com.hotmart.ex;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -17,12 +19,14 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 @Path("/FileUploadedService")
 public class FileUploadedService {
 
-	private FileManager fileManager = new FileManager();
+	@Context
+	private ServletContext context; 
+
 	@GET
 	@Path("/filesUp")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<FileUpload> listFile() {
-		return fileManager.getAllFilesUpload();
+		return new FileManager(context.getRealPath("/WEB-INF")).getAllFilesUpload();
 	}
 
 	@POST  
@@ -31,8 +35,8 @@ public class FileUploadedService {
     public Response uploadFile(
     		@FormDataParam ("userId") String userID,
             @FormDataParam("file") InputStream inputStream,  
-            @FormDataParam("file") FormDataContentDisposition fileDetail) {  
-			fileManager.saveFile(inputStream, fileDetail.getFileName(), userID);
+            @FormDataParam("file") FormDataContentDisposition fileDetail) {
+		new FileManager(context.getRealPath("/WEB-INF")).saveFile(inputStream, fileDetail.getFileName(), userID);
             String output = "File successfully uploaded to : ";  
             return Response.status(200).entity(output).build();  
      }	
@@ -45,8 +49,8 @@ public class FileUploadedService {
     		@FormDataParam ("userId") String userID,
             @FormDataParam("file") InputStream uploadedInputStream,  
             @FormDataParam("file") FormDataContentDisposition fileDetail) {
-		fileManager.saveFile(uploadedInputStream, fileDetail.getFileName(), userID, chunks, chunk);
-		String output = "File successfully uploaded!";  
+		new FileManager(context.getRealPath("/WEB-INF")).saveFile(uploadedInputStream, fileDetail.getFileName(), userID, chunks, chunk);
+		String output = "File successfully uploaded!";
         return Response.status(200).entity(output).build();
 	}
 }
