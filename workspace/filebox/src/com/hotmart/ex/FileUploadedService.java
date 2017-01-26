@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,8 +18,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import javax.ws.rs.core.UriInfo;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 @Path("/FileUploadedService")
@@ -28,12 +27,14 @@ public class FileUploadedService {
 
 	@Context
 	private ServletContext context; 
+	@Context
+	private UriInfo uriInfo; 
 
 	@GET
 	@Path("/filesUp")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<FileUpload> listFile() {
-		return new FileManager(context.getRealPath("/WEB-INF")).getAllFilesUpload();
+		return FileManager.getAllFilesUpload();
 	}
 
 	@POST  
@@ -45,7 +46,7 @@ public class FileUploadedService {
     		@FormDataParam ("userId") String userID,
     		@FormDataParam ("name") String fileName,
             @FormDataParam("file") InputStream uploadedInputStream) {
-		new FileManager(context.getRealPath("/uploads")).saveFile(uploadedInputStream, fileName, userID, chunks, chunk);
+		new FileManager(context.getRealPath("/uploads"), uriInfo.getAbsolutePath()).saveFile(uploadedInputStream, fileName, userID, chunks, chunk);
 		return Response.status(200).build();
 	}
 	@GET
