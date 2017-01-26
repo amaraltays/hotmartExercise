@@ -2,6 +2,11 @@ package com.hotmart.ex;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.sun.xml.internal.txw2.annotation.XmlElement;
+
+@XmlRootElement(name = "fileuploaded")
 public class FileUpload implements Serializable {
 
 	/** UID */
@@ -26,36 +31,42 @@ public class FileUpload implements Serializable {
 	public String getFileName() {
 		return fileName;
 	}
+	@XmlElement
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 	public String getUserID() {
 		return userID;
 	}
+	@XmlElement
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
 	public UploadStatus getStatus() {
 		return status;
 	}
+	@XmlElement
 	public void setStatus(UploadStatus status) {
 		this.status = status;
 	}
 	public int getUploadTime() {
 		return uploadTime;
 	}
+	@XmlElement
 	public void setUploadTime(int uploadTime) {
 		this.uploadTime = uploadTime;
 	}
 	public int getChunksCount() {
 		return chunksCount;
 	}
+	@XmlElement
 	public void setChunksCount(int chunksCount) {
 		this.chunksCount = chunksCount;
 	}
 	public String getDownloadLink() {
 		return downloadLink;
 	}
+	@XmlElement
 	public void setDownloadLink(String downloadLink) {
 		this.downloadLink = downloadLink;
 	}

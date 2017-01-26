@@ -32,7 +32,7 @@ public class FileUploadedService {
 
 	@GET
 	@Path("/filesUp")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
 	public List<FileUpload> listFile() {
 		return FileManager.getAllFilesUpload();
 	}

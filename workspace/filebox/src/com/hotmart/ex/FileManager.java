@@ -13,6 +13,8 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
+import com.sun.jndi.toolkit.url.UrlUtil;
+
 public class FileManager {
 	private final String filesUploadDirMask;
 	private final String filesChunkDirMask;
@@ -65,6 +67,12 @@ public class FileManager {
 		return true;
 		
 	}
+	public static List<FileUpload> getAllFilesUpload() {
+		ArrayList<FileUpload> allFiles = new ArrayList<FileUpload>();
+		allFiles.addAll(filesMap.values());
+		return allFiles;
+	}
+
 	private File saveFile(InputStream fileInputStream, String fileName, String userID) throws Exception {
 		String fileLocation = String.format(filesUploadDirMask, userID);
 		File fileSaved = this.saveFile(fileInputStream, fileLocation, fileName, false);
@@ -77,11 +85,9 @@ public class FileManager {
 	}
 
 	private String getFileLink(File fileSaved) throws Exception {
-		String urlStr = "http://abc.dev.domain.com/0007AC/ads/800x480 15sec h.264.mp4";
-		URL url = new URL(urlStr);
-		URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
-		url = uri.toURL();
-		return null;
+		URL url = appPath.toURL();
+		URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), fileSaved.getPath());
+		return uri.toASCIIString();
 	}
 	private File saveFile(InputStream fileInputStream, String fileLocation, String fileName, boolean append) {
 		try {  
@@ -107,11 +113,5 @@ public class FileManager {
 			fileDir.mkdirs();
 		}
 		return fileDir;
-	}
-
-	public static List<FileUpload> getAllFilesUpload() {
-		ArrayList<FileUpload> allFiles = new ArrayList<FileUpload>();
-		allFiles.addAll(filesMap.values());
-		return allFiles;
 	}
 }
