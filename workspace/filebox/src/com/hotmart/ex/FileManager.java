@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-
 import org.apache.commons.io.FileUtils;
 
 public class FileManager {
@@ -22,13 +20,18 @@ public class FileManager {
 	public boolean saveFile(InputStream fileInputStream, String fileName, String userID, Integer chunks, Integer chunk) {
 		if (chunks != null && chunk != null) {
 			String fileChunkLocation = String.format(filesChunkDirMask, userID, fileName);
-			if (this.saveFile(fileInputStream, fileChunkLocation, fileName, true)) {
-				return true;
+			if (!this.saveFile(fileInputStream, fileChunkLocation, fileName, true)) {
+				return false;
 			}
-			if (chunk == chunks - 1) {
+			if (chunks.intValue() - 1 == chunk.intValue()) {
 				String fileLocation = String.format(filesUploadDirMask, userID, fileName);
 				try {
-					FileUtils.moveFile(new File(fileChunkLocation), new File(fileLocation));
+					File fileDir = createDirIfNotExists(fileLocation);
+					File fileDest = new File(fileDir, fileName);
+					if (fileDest.isFile()) {
+						FileUtils.forceDelete(fileDest);
+					}
+					FileUtils.moveFile(new File(fileChunkLocation, fileName), fileDest);
 				} catch (IOException e) {
 					e.printStackTrace();
 					return false;
@@ -36,9 +39,9 @@ public class FileManager {
 				FileUpload fileUpload = new FileUpload(userID, UploadStatus.SUCCESS, 0, 0);
 			}
 		} else {
-			this.saveFile(fileInputStream, fileName, userID);
+			return this.saveFile(fileInputStream, fileName, userID);
 		}
-		return false;
+		return true;
 		
 	}
 	public boolean saveFile(InputStream fileInputStream, String fileName, String userID) {
@@ -51,10 +54,7 @@ public class FileManager {
 	}
 	private boolean saveFile(InputStream fileInputStream, String fileLocation, String fileName, boolean append) {
 		try {  
-            File fileDir = new File(fileLocation);
-            if (!fileDir.exists()) {
-            	fileDir.mkdirs();
-            }
+            File fileDir = createDirIfNotExists(fileLocation);
 			FileOutputStream out = new FileOutputStream(new File(fileDir, fileName), append);  
             int read = 0;  
             byte[] bytes = new byte[1024];  
@@ -68,6 +68,13 @@ public class FileManager {
         	e.printStackTrace();
         }
 		return false;
+	}
+	private File createDirIfNotExists(String fileLocation) {
+		File fileDir = new File(fileLocation);
+		if (!fileDir.exists()) {
+			fileDir.mkdirs();
+		}
+		return fileDir;
 	}
 
 	public List<FileUpload> getAllFilesUpload() {

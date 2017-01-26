@@ -6,33 +6,27 @@
 <body>
 	<h1>File Upload</h1>
  
-	<form action="/rest/FileUploadedService/uploadFile" id="selectFile" method="post" enctype="multipart/form-data">
- 	   <p>	User id : <input type="text" name="userId" size="45" />  </p>
-	   <p>	Select a file : <input type="file" name="file" size="45" />  </p>
-	   <input type="submit" id="selectFile" value="upload file" />
-        <span class="progress">
-            Uploading - <span class="percent"></span>%
-        </span>
-	</form>
-
 
 <br />
-
 <ul id="filelist"></ul>
 <br />
  
 <div id="container">
-    <a id="browse" href="javascript:;">[Browse...]</a>
-    <a id="start-upload" href="javascript:;">[Start Upload]</a>
+	<p>	User id : <input type="text" id = "userId" />  </p>
+    <a id="browse" href="javascript:;">[Select file...]</a>
+    <a id="start-upload" href="javascript:;">[Upload]</a>
 </div> 
  
  <br />
 <pre id="console"></pre>
 <script type="text/javascript">
 var uploader = new plupload.Uploader({
-  browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
+  browse_button: 'browse',
   chunk_size: "1Mb",
-  url: '/filebox/rest/FileUploadedService/uploadLargeFile'
+  url: '/filebox/rest/FileUploadedService/uploadLargeFile',
+  multipart_params : {
+	  userId : $("#userId").val()
+  }
 });
 
 uploader.init();
@@ -54,7 +48,9 @@ uploader.bind('Error', function(up, err) {
 	});
 	 
 	document.getElementById('start-upload').onclick = function() {
-	  uploader.start();
+		uploader.settings.multipart_params["userId"] = $("#userId").val();
+		document.getElementById('console').innerHTML = "";
+		uploader.start();
 	};
 
 
