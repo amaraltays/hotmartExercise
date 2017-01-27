@@ -14,13 +14,13 @@ public class FileUpload implements Serializable {
 	private String userID;
 	private String fileName;
 	private UploadStatus status;
-	private int uploadTime;
+	private long uploadTime;
 	private int chunksCount;
 	private String downloadLink;
 
 	public FileUpload() {}
 	
-	public FileUpload(String userID, String fileName, String downloadLink, UploadStatus status, int uploadTime, int chunksCount) {
+	public FileUpload(String userID, String fileName, String downloadLink, UploadStatus status, long uploadTime, int chunksCount) {
 		this.userID = userID;
 		this.status = status;
 		this.uploadTime = uploadTime;
@@ -49,11 +49,11 @@ public class FileUpload implements Serializable {
 	public void setStatus(UploadStatus status) {
 		this.status = status;
 	}
-	public int getUploadTime() {
+	public long getUploadTime() {
 		return uploadTime;
 	}
 	@XmlElement
-	public void setUploadTime(int uploadTime) {
+	public void setUploadTime(long uploadTime) {
 		this.uploadTime = uploadTime;
 	}
 	public int getChunksCount() {
