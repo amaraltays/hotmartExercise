@@ -1,11 +1,16 @@
 package com.hotmart.ex;
 
 import java.io.File;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,10 +47,8 @@ public class FileManager {
 					String fileLocation = getFilePath(userID, UPLOAD_DIR);
 					File fileDir = createDirIfNotExists(fileLocation);
 					File fileDest = new File(fileDir, fileName);
-					if (fileDest.isFile()) {
-						FileUtils.forceDelete(fileDest);
-					}
-					FileUtils.moveFile(new File(fileChunkLocation, fileName), fileDest);
+					Path movedPath = Files.move(new File(fileChunkLocation, fileName).toPath(), fileDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					System.out.println("-------------moved " + movedPath);
 					fileUpload = new FileUpload(userID, fileName, this.getFileLink(fileDest), UploadStatus.SUCCESS,
 							uploadTime, chunks);
 				}
