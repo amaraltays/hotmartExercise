@@ -2,11 +2,14 @@ package com.hotmart.ex;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.sun.xml.internal.txw2.annotation.XmlElement;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlRootElement(name = "fileuploaded")
+@ApiModel(value = "FileUpload")
 public class FileUpload implements Serializable {
 
 	/** UID */
@@ -18,9 +21,11 @@ public class FileUpload implements Serializable {
 	private int chunksCount;
 	private String downloadLink;
 
-	public FileUpload() {}
-	
-	public FileUpload(String userID, String fileName, String downloadLink, UploadStatus status, long uploadTime, int chunksCount) {
+	public FileUpload() {
+	}
+
+	public FileUpload(String userID, String fileName, String downloadLink, UploadStatus status, long uploadTime,
+			int chunksCount) {
 		this.userID = userID;
 		this.status = status;
 		this.uploadTime = uploadTime;
@@ -28,55 +33,75 @@ public class FileUpload implements Serializable {
 		this.fileName = fileName;
 		this.downloadLink = downloadLink;
 	}
+
+	@ApiModelProperty(value = "Nome do arquivo.")
 	public String getFileName() {
 		return fileName;
 	}
+
 	@XmlElement
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+
+	@ApiModelProperty(value = "Identificador do usuário .")
 	public String getUserID() {
 		return userID;
 	}
+
 	@XmlElement
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
+
+	@ApiModelProperty(value = "Status do upload do arquivo.", allowableValues = "SUCCESS,FAIL,LOADING")
 	public UploadStatus getStatus() {
 		return status;
 	}
+
 	@XmlElement
 	public void setStatus(UploadStatus status) {
 		this.status = status;
 	}
+
+	@ApiModelProperty(value = "Tempo gasto no upload do arquivo. É atualizado a medida que o upload do arquivo é realizado.")
 	public long getUploadTime() {
 		return uploadTime;
 	}
+
 	@XmlElement
 	public void setUploadTime(long uploadTime) {
 		this.uploadTime = uploadTime;
 	}
+
+	@ApiModelProperty(value = "Quantidade de pedaços que o arquivo foi fracionado.")
 	public int getChunksCount() {
 		return chunksCount;
 	}
+
 	@XmlElement
 	public void setChunksCount(int chunksCount) {
 		this.chunksCount = chunksCount;
 	}
+
+	@ApiModelProperty(value = "Link para download do arquivo.")
 	public String getDownloadLink() {
 		return downloadLink;
 	}
+
 	@XmlElement
 	public void setDownloadLink(String downloadLink) {
 		this.downloadLink = downloadLink;
 	}
+
 	public String getKey() {
-		String thisKey = this.userID + this.fileName;
+		String thisKey = this.userID + "_" + this.fileName;
 		return thisKey;
 	}
+
 	@Override
 	public boolean equals(Object otherFile) {
-		return this.getKey().equals(((FileUpload)otherFile).getKey());
+		return this.getKey().equals(((FileUpload) otherFile).getKey());
 	}
 
 	@Override

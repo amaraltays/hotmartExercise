@@ -69,7 +69,7 @@
 
 		uploader.bind('Error', function(up, err) {
 			document.getElementById('console').innerHTML += "\nError #"
-					+ err.code + ": " + err.message;
+					+ err.status + ": " + err.message + ": " + err.response;
 		});
 
 		uploader.bind('FileUploaded', function(up, file, result) {
@@ -79,7 +79,8 @@
 			initialUpTime = new Date();
 		});
 		document.getElementById('start-upload').onclick = function() {
-			uploader.settings.multipart_params["userId"] = $("#userId").val();
+			var userId = $("#userId").val();
+			uploader.settings.multipart_params["userId"] = userId;
 			document.getElementById('console').innerHTML = "";
 			uploader.start();
 		};
