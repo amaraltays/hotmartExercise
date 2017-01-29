@@ -5,8 +5,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.hotmart.ex.required.RequiredParameterException;
-
+/**
+ * Mapeia exceções retornadas pela aplicação em status HTTP/ mensagens que o
+ * cliente da aplicação receberão
+ * 
+ * @author Tays
+ *
+ */
 @Provider
 public class GlobalExceptionMapper implements ExceptionMapper<Exception> {
 

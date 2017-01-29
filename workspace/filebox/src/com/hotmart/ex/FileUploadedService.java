@@ -17,7 +17,7 @@ import javax.ws.rs.core.UriInfo;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import com.google.common.base.Strings;
-import com.hotmart.ex.required.RequiredParameterException;
+import com.hotmart.ex.errorhandling.RequiredParameterException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
